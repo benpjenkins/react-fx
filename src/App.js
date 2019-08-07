@@ -1,23 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import Tone from "tone";
+import Player from "./Player";
+import mp3 from "./Content/feelings.mp3";
+import Title from "./Title";
+import styled from "styled-components";
 
+const Board = styled.div`
+  display: flex;
+`;
 function App() {
+  const player = new Tone.Player(mp3).toMaster();
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Title />
+        <Board />
+        <Player player={player} />
       </header>
     </div>
   );
