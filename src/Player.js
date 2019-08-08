@@ -29,10 +29,14 @@ const Player = props => {
   };
 
   const handleMic = () => {
-    const mic = new Tone.UserMedia();
-    mic.open().then(function() {
-      mic.toMaster();
-    });
+    if (micOn) {
+      props.mic.close();
+      setMicOn(false);
+      console.log("trying to turn the mic input off");
+    } else {
+      props.mic.open();
+      setMicOn(true);
+    }
   };
   return (
     <div>
