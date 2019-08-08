@@ -7,12 +7,12 @@ import Toggle from "./Toggle";
 import { FlexDiv, ControlContainer, Title } from "./Layout";
 import { On, Off } from "./Led";
 
-const Chorus = styled(Pedal)`
-  background: rgb(33, 80, 223);
+const Delay = styled(Pedal)`
+  background: rgb(0, 71, 24);
   background: linear-gradient(
-    180deg,
-    rgba(33, 80, 223, 1) 0%,
-    rgba(76, 145, 235, 1) 100%
+    0deg,
+    rgba(0, 71, 24, 1) 0%,
+    rgba(9, 34, 0, 1) 100%
   );
 `;
 
@@ -20,76 +20,72 @@ const Knob = styled(knob)`
   width: 10px;
 `;
 
-const ChorusPedal = props => {
+const DelayPedal = props => {
   const [connected, setConnected] = useState(false);
-
   const handleToggleOn = () => {
     if (connected) {
-      props.player.disconnect(props.chorus);
-      // props.mic.disconnect(props.chorus);
+      props.player.disconnect(props.delay);
       setConnected(false);
     } else {
-      props.player.connect(props.chorus);
-      // props.mic.connect(props.chorus);
+      props.player.connect(props.delay);
       setConnected(true);
     }
   };
 
   const handleDelayTime = event => {
-    props.chorus.delayTime = event;
+    props.delay.delayTime.value = event;
   };
 
-  const handleDepth = event => {
-    props.chorus.depth = event;
+  const handleFeedback = event => {
+    props.delay.feedback.value = event;
   };
 
-  const handleFreq = event => {
-    props.chorus.frequency.value = event;
+  const handleDryWet = event => {
+    props.delay.wet.value = event;
   };
+
   return (
-    <Chorus>
+    <Delay>
       <ControlContainer>
         <FlexDiv>
           <Knob
-            name={"delay"}
             class={"my-knob-class"}
             onChange={handleDelayTime}
             min={0}
-            max={5}
+            max={1}
             step={0.1}
-            value={1.5}
+            value={0.25}
           />
-          Delay
+          Delay Time
         </FlexDiv>
         <FlexDiv>
           <Knob
             class={"my-knob-class"}
-            onChange={handleDepth}
+            onChange={handleFeedback}
             min={0}
-            max={5}
+            max={1}
             step={0.1}
-            value={1.5}
+            value={0.25}
           />
-          Depth
+          Feedback
         </FlexDiv>
         <FlexDiv>
           <Knob
-            name={"frequency"}
             class={"my-knob-class"}
-            onChange={handleFreq}
+            onChange={handleDryWet}
             min={0}
-            max={5}
-            step={0.1}
-            value={1.5}
+            max={1}
+            step={0.01}
+            value={0.8}
           />
-          Frequency
+          Dry/Wet
         </FlexDiv>
       </ControlContainer>
-      <Title> Chorus </Title>
+      <Title>Ping-Pong</Title>
       {connected ? <On /> : <Off />}
       <Toggle onClick={handleToggleOn} />
-    </Chorus>
+    </Delay>
   );
 };
 
-export default ChorusPedal;
+export default DelayPedal;
