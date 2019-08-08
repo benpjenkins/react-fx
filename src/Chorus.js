@@ -26,11 +26,11 @@ const ChorusPedal = props => {
   const handleToggleOn = () => {
     if (connected) {
       props.player.disconnect(props.chorus);
-      // props.mic.disconnect(props.chorus);
+      props.mic.disconnect(props.chorus);
       setConnected(false);
     } else {
       props.player.connect(props.chorus);
-      // props.mic.connect(props.chorus);
+      props.mic.connect(props.chorus);
       setConnected(true);
     }
   };

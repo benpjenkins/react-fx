@@ -24,8 +24,10 @@ const Player = props => {
     setPlaying(true);
   };
   const handleStop = () => {
-    props.player.stop();
-    setPlaying(false);
+    if (playing) {
+      props.player.stop();
+      setPlaying(false);
+    }
   };
 
   const handleMic = () => {

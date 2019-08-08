@@ -32,10 +32,11 @@ const ReverbPedal = props => {
   const handleToggleOn = () => {
     if (connected) {
       props.player.disconnect(props.reverb);
+      props.mic.disconnect(props.reverb);
       setConnected(false);
     } else {
-      console.log("props.reverb :", props.reverb);
       props.player.connect(props.reverb);
+      props.mic.connect(props.reverb);
       setConnected(true);
     }
   };

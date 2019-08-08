@@ -22,6 +22,7 @@ function App() {
   //   console.log("connected to microphone");
   // });
   const chorus = new Tone.Chorus(1.5, 4.5, 0.7).toMaster();
+
   const overdrive = new Tone.Distortion(0.4).toMaster();
   const bit = new Tone.BitCrusher(8).toMaster();
   const reverb = new Tone.Freeverb(0.8).toMaster();
@@ -40,8 +41,8 @@ function App() {
             overdrive={overdrive}
             bit={bit}
           />
-          <Reverb player={player} mic={mic} reverb={reverb} />
           <Delay player={player} mic={mic} delay={delay} />
+          <Reverb player={player} mic={mic} reverb={reverb} />
           <Wah player={player} mic={mic} wah={wah} />
         </Board>
         <Player player={player} mic={mic} />

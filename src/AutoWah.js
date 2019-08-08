@@ -26,13 +26,24 @@ const WahPedal = props => {
   const handleToggleOn = () => {
     if (connected) {
       props.player.disconnect(props.wah);
+      props.mic.disconnect(props.wah);
       setConnected(false);
     } else {
       props.player.connect(props.wah);
+      props.mic.connect(props.wah);
       setConnected(true);
+      props.wah.Q.value = 6;
     }
   };
-  const handleFreq = event => {};
+  const handleFreq = event => {
+    props.wah.baseFrequency = event;
+  };
+  const handleOctaves = event => {
+    props.wah.octaves = event;
+  };
+  const handleSens = event => {
+    props.wah.senitivity = event;
+  };
   return (
     <AutoWah>
       <ControlContainer>
@@ -41,11 +52,36 @@ const WahPedal = props => {
             name={"delay"}
             class={"my-knob-class"}
             onChange={handleFreq}
-            min={0}
-            max={5}
-            step={0.1}
-            value={1.5}
+            min={1}
+            max={200}
+            step={1}
+            value={100}
           />
+          Freq
+        </FlexDiv>
+        <FlexDiv>
+          <Knob
+            name={"octave"}
+            class={"my-knob-class"}
+            onChange={handleOctaves}
+            min={1}
+            max={8}
+            step={1}
+            value={6}
+          />
+          Octaves
+        </FlexDiv>
+        <FlexDiv>
+          <Knob
+            name={"sensitivity"}
+            class={"my-knob-class"}
+            onChange={handleSens}
+            min={-40}
+            max={0}
+            step={1}
+            value={0}
+          />
+          Sensitivity
         </FlexDiv>
       </ControlContainer>
       <Title>Auto-Wah</Title>

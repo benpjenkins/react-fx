@@ -25,9 +25,11 @@ const DelayPedal = props => {
   const handleToggleOn = () => {
     if (connected) {
       props.player.disconnect(props.delay);
+      props.mic.disconnect(props.delay);
       setConnected(false);
     } else {
       props.player.connect(props.delay);
+      props.mic.connect(props.delay);
       setConnected(true);
     }
   };

@@ -27,11 +27,14 @@ const OverdrivePedal = props => {
     if (connected) {
       props.player.disconnect(props.overdrive);
       props.player.disconnect(props.bit);
+      props.mic.disconnect(props.overdrive);
+      props.mic.disconnect(props.bit);
       setConnected(false);
     } else {
-      console.log("props.bit :", props.bit);
       props.player.connect(props.overdrive);
       props.player.connect(props.bit);
+      props.mic.connect(props.overdrive);
+      props.mic.connect(props.bit);
       setConnected(true);
     }
   };
