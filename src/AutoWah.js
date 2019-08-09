@@ -24,15 +24,6 @@ const Knob = styled(knob)`
 const WahPedal = props => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const handleFreq = event => {
-    props.wah.baseFrequency = event;
-  };
-  const handleOctaves = event => {
-    props.wah.octaves = event;
-  };
-  const handleSens = event => {
-    props.wah.sensitivity = event;
-  };
   return (
     <AutoWah>
       <ControlContainer>
@@ -40,7 +31,14 @@ const WahPedal = props => {
           <Knob
             name={"delay"}
             class={"my-knob-class"}
-            onChange={handleFreq}
+            onEnd={event =>
+              dispatch({
+                type: "SET_POT",
+                pedal: "wah",
+                pot: "baseFrequency",
+                value: event
+              })
+            }
             min={1}
             max={200}
             step={1}
@@ -52,7 +50,14 @@ const WahPedal = props => {
           <Knob
             name={"octave"}
             class={"my-knob-class"}
-            onChange={handleOctaves}
+            onEnd={event =>
+              dispatch({
+                type: "SET_POT",
+                pedal: "wah",
+                pot: "octaves",
+                value: event
+              })
+            }
             min={1}
             max={8}
             step={1}
@@ -64,7 +69,14 @@ const WahPedal = props => {
           <Knob
             name={"sensitivity"}
             class={"my-knob-class"}
-            onChange={handleSens}
+            onEnd={event =>
+              dispatch({
+                type: "SET_POT",
+                pedal: "wah",
+                pot: "sensitivity",
+                value: event
+              })
+            }
             min={-40}
             max={0}
             step={1}

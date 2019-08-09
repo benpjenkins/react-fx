@@ -23,20 +23,20 @@ const Knob = styled(knob)`
 const ReverbPedal = props => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const handleDryWet = event => {
-    props.reverb.wet.value = event;
-  };
-  const handleSize = event => {
-    props.reverb.roomSize.value = event;
-  };
-
   return (
     <Reverb>
       <ControlContainer>
         <FlexDiv>
           <Knob
             class={"my-knob-class"}
-            onChange={handleDryWet}
+            onEnd={event =>
+              dispatch({
+                type: "SET_POT",
+                pedal: "reverb",
+                pot: "wet",
+                value: event
+              })
+            }
             min={0}
             max={1}
             step={0.01}
@@ -47,7 +47,14 @@ const ReverbPedal = props => {
         <FlexDiv>
           <Knob
             class={"my-knob-class"}
-            onChange={handleSize}
+            onEnd={event =>
+              dispatch({
+                type: "SET_POT",
+                pedal: "reverb",
+                pot: "roomSize",
+                value: event
+              })
+            }
             min={0}
             max={1}
             step={0.01}

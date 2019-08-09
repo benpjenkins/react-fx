@@ -24,25 +24,20 @@ const Knob = styled(knob)`
 const DelayPedal = props => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const handleDelayTime = event => {
-    props.delay.delayTime.value = event;
-  };
-
-  const handleFeedback = event => {
-    props.delay.feedback.value = event;
-  };
-
-  const handleDryWet = event => {
-    props.delay.wet.value = event;
-  };
-
   return (
     <Delay>
       <ControlContainer>
         <FlexDiv>
           <Knob
             class={"my-knob-class"}
-            onChange={handleDelayTime}
+            onEnd={event =>
+              dispatch({
+                type: "SET_POT",
+                pedal: "delay",
+                pot: "delayTime",
+                value: event
+              })
+            }
             min={0}
             max={1}
             step={0.1}
@@ -53,7 +48,14 @@ const DelayPedal = props => {
         <FlexDiv>
           <Knob
             class={"my-knob-class"}
-            onChange={handleFeedback}
+            onEnd={event =>
+              dispatch({
+                type: "SET_POT",
+                pedal: "delay",
+                pot: "feedback",
+                value: event
+              })
+            }
             min={0}
             max={1}
             step={0.1}
@@ -64,7 +66,14 @@ const DelayPedal = props => {
         <FlexDiv>
           <Knob
             class={"my-knob-class"}
-            onChange={handleDryWet}
+            onEnd={event =>
+              dispatch({
+                type: "SET_POT",
+                pedal: "delay",
+                pot: "wet",
+                value: event
+              })
+            }
             min={0}
             max={1}
             step={0.01}

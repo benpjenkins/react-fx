@@ -24,17 +24,6 @@ const Knob = styled(knob)`
 const ChorusPedal = props => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const handleDelayTime = event => {
-    props.chorus.delayTime = event;
-  };
-
-  const handleDepth = event => {
-    props.chorus.depth = event;
-  };
-
-  const handleFreq = event => {
-    props.chorus.frequency.value = event;
-  };
   return (
     <Chorus>
       <ControlContainer>
@@ -42,7 +31,14 @@ const ChorusPedal = props => {
           <Knob
             name={"delay"}
             class={"my-knob-class"}
-            onChange={handleDelayTime}
+            onEnd={event =>
+              dispatch({
+                type: "SET_POT",
+                pedal: "chorus",
+                pot: "delayTime",
+                value: event
+              })
+            }
             min={0}
             max={5}
             step={0.1}
@@ -53,7 +49,14 @@ const ChorusPedal = props => {
         <FlexDiv>
           <Knob
             class={"my-knob-class"}
-            onChange={handleDepth}
+            onEnd={event =>
+              dispatch({
+                type: "SET_POT",
+                pedal: "chorus",
+                pot: "depth",
+                value: event
+              })
+            }
             min={0}
             max={5}
             step={0.1}
@@ -65,7 +68,14 @@ const ChorusPedal = props => {
           <Knob
             name={"frequency"}
             class={"my-knob-class"}
-            onChange={handleFreq}
+            onEnd={event =>
+              dispatch({
+                type: "SET_POT",
+                pedal: "chorus",
+                pot: "frequency",
+                value: event
+              })
+            }
             min={0}
             max={5}
             step={0.1}
