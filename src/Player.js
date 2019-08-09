@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useContext } from "react";
 import styled from "styled-components";
 import Button from "./Button";
+// import { initialState, reducer } from "./context/Reducer";
 import Tone from "tone";
+import mp3 from "./Content/feelings.mp3";
+import { PedalContext } from "./context/PedalProvider";
 
 const Play = styled(Button)`
   background-color: green;
@@ -15,36 +18,62 @@ const Mic = styled(Button)`
   background-color: Blue;
 `;
 
+const player = new Tone.Player(mp3).toMaster();
+
 const Player = props => {
-  const [playing, setPlaying] = useState(false);
-  const [micOn, setMicOn] = useState(false);
+  const { state, dispatch } = useContext(PedalContext);
 
-  const handlePlay = () => {
-    props.player.start();
-    setPlaying(true);
-  };
-  const handleStop = () => {
-    if (playing) {
-      props.player.stop();
-      setPlaying(false);
-    }
-  };
-
-  const handleMic = () => {
-    if (micOn) {
-      props.mic.close();
-      setMicOn(false);
-      console.log("trying to turn the mic input off");
+  useEffect(() => {
+    console.log("state :", state);
+    if (state.isPlaying) {
+      player.start();
     } else {
-      props.mic.open();
-      setMicOn(true);
+      player.stop();
     }
-  };
+  });
+
   return (
     <div>
-      <Play onClick={handlePlay}>Play</Play>
-      <Stop onClick={handleStop}>Stop</Stop>
-      <Mic onClick={handleMic}>Mic</Mic>
+      <Play
+        onClick={() =>
+          dispatch({
+            type: "SET_PLAYING",
+            playing: true
+          })
+        }
+      >
+        Play
+      </Play>
+      <Stop
+        onClick={() =>
+          dispatch({
+            type: "SET_PLAYING",
+            playing: false
+          })
+        }
+      >
+        Stop
+      </Stop>
+      <Mic
+        onClick={() =>
+          dispatch({
+            type: "SET_SOURCE",
+            source: "mic"
+          })
+        }
+      >
+        Use Mic
+      </Mic>
+      <Mic
+        onClick={() =>
+          dispatch({
+            type: "SET_SOURCE",
+            source: "mic"
+          })
+        }
+      >
+        Use MP3
+      </Mic>
     </div>
   );
 };

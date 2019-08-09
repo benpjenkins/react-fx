@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import knob from "react-touch-knob";
 import "./Knob.css";
@@ -6,7 +6,7 @@ import Pedal from "./Pedal";
 import Toggle from "./Toggle";
 import { FlexDiv, ControlContainer, Title } from "./Layout";
 import { On, Off } from "./Led";
-import { initialState, reducer } from "./context/Reducer";
+import { PedalContext } from "./context/PedalProvider";
 
 const AutoWah = styled(Pedal)`
   background: rgb(55, 0, 60);
@@ -22,7 +22,7 @@ const Knob = styled(knob)`
 `;
 
 const WahPedal = props => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const { dispatch, state } = useContext(PedalContext);
 
   return (
     <AutoWah>
