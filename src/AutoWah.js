@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 import styled from "styled-components";
 import knob from "react-touch-knob";
 import "./Knob.css";
@@ -6,6 +6,7 @@ import Pedal from "./Pedal";
 import Toggle from "./Toggle";
 import { FlexDiv, ControlContainer, Title } from "./Layout";
 import { On, Off } from "./Led";
+import { initialState, reducer } from "./context/Reducer";
 
 const AutoWah = styled(Pedal)`
   background: rgb(55, 0, 60);
@@ -21,20 +22,8 @@ const Knob = styled(knob)`
 `;
 
 const WahPedal = props => {
-  const [connected, setConnected] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  const handleToggleOn = () => {
-    if (connected) {
-      props.player.disconnect(props.wah);
-      props.mic.disconnect(props.wah);
-      setConnected(false);
-    } else {
-      props.player.connect(props.wah);
-      props.mic.connect(props.wah);
-      setConnected(true);
-      props.wah.Q.value = 6;
-    }
-  };
   const handleFreq = event => {
     props.wah.baseFrequency = event;
   };
@@ -55,7 +44,7 @@ const WahPedal = props => {
             min={1}
             max={200}
             step={1}
-            value={100}
+            value={state.wah.baseFrequency}
           />
           Freq
         </FlexDiv>
@@ -67,7 +56,7 @@ const WahPedal = props => {
             min={1}
             max={8}
             step={1}
-            value={6}
+            value={state.wah.octaves}
           />
           Octaves
         </FlexDiv>
@@ -79,14 +68,16 @@ const WahPedal = props => {
             min={-40}
             max={0}
             step={1}
-            value={0}
+            value={state.wah.sensitivity}
           />
           Sensitivity
         </FlexDiv>
       </ControlContainer>
       <Title>Auto-Wah</Title>
-      {connected ? <On /> : <Off />}
-      <Toggle onClick={handleToggleOn} />
+      {state.wah.active ? <On /> : <Off />}
+      <Toggle
+        onClick={() => dispatch({ type: "TOGGLE_ACTIVE", pedal: "wah" })}
+      />
     </AutoWah>
   );
 };

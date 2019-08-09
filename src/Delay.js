@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 import styled from "styled-components";
 import knob from "react-touch-knob";
 import "./Knob.css";
@@ -6,6 +6,7 @@ import Pedal from "./Pedal";
 import Toggle from "./Toggle";
 import { FlexDiv, ControlContainer, Title } from "./Layout";
 import { On, Off } from "./Led";
+import { initialState, reducer } from "./context/Reducer";
 
 const Delay = styled(Pedal)`
   background: rgb(0, 71, 24);
@@ -21,18 +22,7 @@ const Knob = styled(knob)`
 `;
 
 const DelayPedal = props => {
-  const [connected, setConnected] = useState(false);
-  const handleToggleOn = () => {
-    if (connected) {
-      props.player.disconnect(props.delay);
-      props.mic.disconnect(props.delay);
-      setConnected(false);
-    } else {
-      props.player.connect(props.delay);
-      props.mic.connect(props.delay);
-      setConnected(true);
-    }
-  };
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleDelayTime = event => {
     props.delay.delayTime.value = event;
@@ -56,7 +46,7 @@ const DelayPedal = props => {
             min={0}
             max={1}
             step={0.1}
-            value={0.25}
+            value={state.delay.delayTime}
           />
           Delay Time
         </FlexDiv>
@@ -67,7 +57,7 @@ const DelayPedal = props => {
             min={0}
             max={1}
             step={0.1}
-            value={0.25}
+            value={state.delay.feedback}
           />
           Feedback
         </FlexDiv>
@@ -78,14 +68,16 @@ const DelayPedal = props => {
             min={0}
             max={1}
             step={0.01}
-            value={0.8}
+            value={state.delay.wet}
           />
           Dry/Wet
         </FlexDiv>
       </ControlContainer>
       <Title>Ping-Pong</Title>
-      {connected ? <On /> : <Off />}
-      <Toggle onClick={handleToggleOn} />
+      {state.delay.active ? <On /> : <Off />}
+      <Toggle
+        onClick={() => dispatch({ type: "TOGGLE_ACTIVE", pedal: "delay" })}
+      />
     </Delay>
   );
 };

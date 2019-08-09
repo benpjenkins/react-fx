@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 import styled from "styled-components";
 import knob from "react-touch-knob";
 import "./Knob.css";
@@ -6,6 +6,7 @@ import Pedal from "./Pedal";
 import Toggle from "./Toggle";
 import { FlexDiv, ControlContainer, Title } from "./Layout";
 import { On, Off } from "./Led";
+import { initialState, reducer } from "./context/Reducer";
 
 const Chorus = styled(Pedal)`
   background: rgb(33, 80, 223);
@@ -21,19 +22,7 @@ const Knob = styled(knob)`
 `;
 
 const ChorusPedal = props => {
-  const [connected, setConnected] = useState(false);
-
-  const handleToggleOn = () => {
-    if (connected) {
-      props.player.disconnect(props.chorus);
-      props.mic.disconnect(props.chorus);
-      setConnected(false);
-    } else {
-      props.player.connect(props.chorus);
-      props.mic.connect(props.chorus);
-      setConnected(true);
-    }
-  };
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleDelayTime = event => {
     props.chorus.delayTime = event;
@@ -57,7 +46,7 @@ const ChorusPedal = props => {
             min={0}
             max={5}
             step={0.1}
-            value={1.5}
+            value={state.chorus.delayTime}
           />
           Delay
         </FlexDiv>
@@ -68,7 +57,7 @@ const ChorusPedal = props => {
             min={0}
             max={5}
             step={0.1}
-            value={1.5}
+            value={state.chorus.depth}
           />
           Depth
         </FlexDiv>
@@ -80,14 +69,16 @@ const ChorusPedal = props => {
             min={0}
             max={5}
             step={0.1}
-            value={1.5}
+            value={state.chorus.frequency}
           />
           Frequency
         </FlexDiv>
       </ControlContainer>
       <Title> Chorus </Title>
-      {connected ? <On /> : <Off />}
-      <Toggle onClick={handleToggleOn} />
+      {state.chorus.active ? <On /> : <Off />}
+      <Toggle
+        onClick={() => dispatch({ type: "TOGGLE_ACTIVE", pedal: "chorus" })}
+      />
     </Chorus>
   );
 };
