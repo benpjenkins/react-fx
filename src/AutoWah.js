@@ -42,7 +42,7 @@ const WahPedal = props => {
     props.wah.octaves = event;
   };
   const handleSens = event => {
-    props.wah.senitivity = event;
+    props.wah.sensitivity = event;
   };
   return (
     <AutoWah>
