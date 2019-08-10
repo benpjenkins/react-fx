@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import knob from "react-touch-knob";
 import "./Knob.css";
@@ -6,6 +6,7 @@ import Pedal from "./Pedal";
 import Toggle from "./Toggle";
 import { FlexDiv, ControlContainer, Title } from "./Layout";
 import { On, Off } from "./Led";
+import { PedalContext } from "./context/PedalProvider";
 
 const Reverb = styled(Pedal)`
   background: rgb(73, 72, 72);
@@ -20,55 +21,55 @@ const Knob = styled(knob)`
 `;
 
 const ReverbPedal = props => {
-  const [connected, setConnected] = useState(false);
+  const { dispatch, state } = useContext(PedalContext);
 
-  const handleDryWet = event => {
-    props.reverb.wet.value = event;
-  };
-  const handleSize = event => {
-    props.reverb.roomSize.value = event;
-  };
-
-  const handleToggleOn = () => {
-    if (connected) {
-      props.player.disconnect(props.reverb);
-      props.mic.disconnect(props.reverb);
-      setConnected(false);
-    } else {
-      props.player.connect(props.reverb);
-      props.mic.connect(props.reverb);
-      setConnected(true);
-    }
-  };
   return (
     <Reverb>
       <ControlContainer>
         <FlexDiv>
           <Knob
             class={"my-knob-class"}
-            onChange={handleDryWet}
+            onEnd={event =>
+              dispatch({
+                type: "SET_POT",
+                pedal: "reverb",
+                pot: "wet",
+                value: event
+              })
+            }
             min={0}
             max={1}
             step={0.01}
-            value={0.8}
+            value={state.reverb.wet}
           />
           Dry/Wet
         </FlexDiv>
         <FlexDiv>
           <Knob
             class={"my-knob-class"}
-            onChange={handleSize}
+            onEnd={event =>
+              dispatch({
+                type: "SET_POT",
+                pedal: "reverb",
+                pot: "roomSize",
+                value: event
+              })
+            }
             min={0}
             max={1}
             step={0.01}
-            value={0.8}
+            value={state.reverb.roomSize}
           />
           Decay
         </FlexDiv>
       </ControlContainer>
       <Title>Reverb</Title>
-      {connected ? <On /> : <Off />}
-      <Toggle onClick={handleToggleOn}> </Toggle>
+      {state.reverb.active ? <On /> : <Off />}
+      <Toggle
+        onClick={() => dispatch({ type: "TOGGLE_ACTIVE", pedal: "reverb" })}
+      >
+        {" "}
+      </Toggle>
     </Reverb>
   );
 };

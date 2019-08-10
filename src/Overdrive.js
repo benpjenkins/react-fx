@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import knob from "react-touch-knob";
 import "./Knob.css";
@@ -6,6 +6,7 @@ import Pedal from "./Pedal";
 import Toggle from "./Toggle";
 import { FlexDiv, ControlContainer, Title } from "./Layout";
 import { On, Off } from "./Led";
+import { PedalContext } from "./context/PedalProvider";
 
 const Overdrive = styled(Pedal)`
   background: rgb(186, 18, 18);
@@ -21,30 +22,7 @@ const Knob = styled(knob)`
 `;
 
 const OverdrivePedal = props => {
-  const [connected, setConnected] = useState(false);
-
-  const handleToggleOn = () => {
-    if (connected) {
-      props.player.disconnect(props.overdrive);
-      props.player.disconnect(props.bit);
-      props.mic.disconnect(props.overdrive);
-      props.mic.disconnect(props.bit);
-      setConnected(false);
-    } else {
-      props.player.connect(props.overdrive);
-      props.player.connect(props.bit);
-      props.mic.connect(props.overdrive);
-      props.mic.connect(props.bit);
-      setConnected(true);
-    }
-  };
-  const handleGain = event => {
-    console.log("props.overdrive :", props.overdrive);
-    props.overdrive.distortion = event;
-  };
-  const handleBit = event => {
-    props.bit.bits = event;
-  };
+  const { dispatch, state } = useContext(PedalContext);
 
   return (
     <Overdrive>
@@ -52,29 +30,27 @@ const OverdrivePedal = props => {
         <FlexDiv>
           <Knob
             class={"my-knob-class"}
-            onChange={handleGain}
+            onEnd={event =>
+              dispatch({
+                type: "SET_POT",
+                pedal: "overdrive",
+                pot: "distortion",
+                value: event
+              })
+            }
             min={0.1}
-            max={6}
+            max={3}
             step={0.1}
-            value={1.5}
+            value={state.overdrive.distortion}
           />
           Gain
         </FlexDiv>
-        <FlexDiv>
-          <Knob
-            class={"my-knob-class"}
-            onChange={handleBit}
-            min={1}
-            max={8}
-            step={0.1}
-            value={8}
-          />
-          Bits
-        </FlexDiv>
       </ControlContainer>
       <Title>Overdrive</Title>
-      {connected ? <On /> : <Off />}
-      <Toggle onClick={handleToggleOn} />
+      {state.overdrive.active ? <On /> : <Off />}
+      <Toggle
+        onClick={() => dispatch({ type: "TOGGLE_ACTIVE", pedal: "overdrive" })}
+      />
     </Overdrive>
   );
 };

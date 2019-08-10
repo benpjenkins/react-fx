@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import knob from "react-touch-knob";
 import "./Knob.css";
@@ -6,6 +6,7 @@ import Pedal from "./Pedal";
 import Toggle from "./Toggle";
 import { FlexDiv, ControlContainer, Title } from "./Layout";
 import { On, Off } from "./Led";
+import { PedalContext } from "./context/PedalProvider";
 
 const Chorus = styled(Pedal)`
   background: rgb(33, 80, 223);
@@ -21,31 +22,8 @@ const Knob = styled(knob)`
 `;
 
 const ChorusPedal = props => {
-  const [connected, setConnected] = useState(false);
+  const { state, dispatch } = useContext(PedalContext);
 
-  const handleToggleOn = () => {
-    if (connected) {
-      props.player.disconnect(props.chorus);
-      props.mic.disconnect(props.chorus);
-      setConnected(false);
-    } else {
-      props.player.connect(props.chorus);
-      props.mic.connect(props.chorus);
-      setConnected(true);
-    }
-  };
-
-  const handleDelayTime = event => {
-    props.chorus.delayTime = event;
-  };
-
-  const handleDepth = event => {
-    props.chorus.depth = event;
-  };
-
-  const handleFreq = event => {
-    props.chorus.frequency.value = event;
-  };
   return (
     <Chorus>
       <ControlContainer>
@@ -53,22 +31,36 @@ const ChorusPedal = props => {
           <Knob
             name={"delay"}
             class={"my-knob-class"}
-            onChange={handleDelayTime}
+            onEnd={event =>
+              dispatch({
+                type: "SET_POT",
+                pedal: "chorus",
+                pot: "delayTime",
+                value: event
+              })
+            }
             min={0}
             max={5}
             step={0.1}
-            value={1.5}
+            value={state.chorus.delayTime}
           />
           Delay
         </FlexDiv>
         <FlexDiv>
           <Knob
             class={"my-knob-class"}
-            onChange={handleDepth}
+            onEnd={event =>
+              dispatch({
+                type: "SET_POT",
+                pedal: "chorus",
+                pot: "depth",
+                value: event
+              })
+            }
             min={0}
             max={5}
             step={0.1}
-            value={1.5}
+            value={state.chorus.depth}
           />
           Depth
         </FlexDiv>
@@ -76,18 +68,27 @@ const ChorusPedal = props => {
           <Knob
             name={"frequency"}
             class={"my-knob-class"}
-            onChange={handleFreq}
+            onEnd={event =>
+              dispatch({
+                type: "SET_POT",
+                pedal: "chorus",
+                pot: "frequency",
+                value: event
+              })
+            }
             min={0}
             max={5}
             step={0.1}
-            value={1.5}
+            value={state.chorus.frequency}
           />
           Frequency
         </FlexDiv>
       </ControlContainer>
       <Title> Chorus </Title>
-      {connected ? <On /> : <Off />}
-      <Toggle onClick={handleToggleOn} />
+      {state.chorus.active ? <On /> : <Off />}
+      <Toggle
+        onClick={() => dispatch({ type: "TOGGLE_ACTIVE", pedal: "chorus" })}
+      />
     </Chorus>
   );
 };

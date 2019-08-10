@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useContext } from "react";
 import styled from "styled-components";
 import Button from "./Button";
 import Tone from "tone";
+import mp3 from "./Content/feelings.mp3";
+import { PedalContext } from "./context/PedalProvider";
+import { handleStateChange } from "./tone/Audio";
 
 const Play = styled(Button)`
   background-color: green;
@@ -16,35 +19,54 @@ const Mic = styled(Button)`
 `;
 
 const Player = props => {
-  const [playing, setPlaying] = useState(false);
-  const [micOn, setMicOn] = useState(false);
+  const { state, dispatch } = useContext(PedalContext);
 
-  const handlePlay = () => {
-    props.player.start();
-    setPlaying(true);
-  };
-  const handleStop = () => {
-    if (playing) {
-      props.player.stop();
-      setPlaying(false);
-    }
-  };
+  useEffect(() => {
+    handleStateChange(state);
+  });
 
-  const handleMic = () => {
-    if (micOn) {
-      props.mic.close();
-      setMicOn(false);
-      console.log("trying to turn the mic input off");
-    } else {
-      props.mic.open();
-      setMicOn(true);
-    }
-  };
   return (
     <div>
-      <Play onClick={handlePlay}>Play</Play>
-      <Stop onClick={handleStop}>Stop</Stop>
-      <Mic onClick={handleMic}>Mic</Mic>
+      <Play
+        onClick={() =>
+          dispatch({
+            type: "SET_PLAYING",
+            playing: true
+          })
+        }
+      >
+        Play
+      </Play>
+      <Stop
+        onClick={() =>
+          dispatch({
+            type: "SET_PLAYING",
+            playing: false
+          })
+        }
+      >
+        Stop
+      </Stop>
+      <Mic
+        onClick={() =>
+          dispatch({
+            type: "SET_SOURCE",
+            source: "mic"
+          })
+        }
+      >
+        Use Mic
+      </Mic>
+      <Mic
+        onClick={() =>
+          dispatch({
+            type: "SET_SOURCE",
+            source: "mic"
+          })
+        }
+      >
+        Use MP3
+      </Mic>
     </div>
   );
 };
