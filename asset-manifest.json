@@ -1,17 +1,16 @@
 {
   "files": {
     "main.css": "/react-fx/static/css/main.3b6f8f05.chunk.css",
-    "main.js": "/react-fx/static/js/main.7007c254.chunk.js",
-    "main.js.map": "/react-fx/static/js/main.7007c254.chunk.js.map",
+    "main.js": "/react-fx/static/js/main.6c8bc1d5.chunk.js",
+    "main.js.map": "/react-fx/static/js/main.6c8bc1d5.chunk.js.map",
     "runtime~main.js": "/react-fx/static/js/runtime~main.baa32d07.js",
     "runtime~main.js.map": "/react-fx/static/js/runtime~main.baa32d07.js.map",
-    "static/js/2.988f6414.chunk.js": "/react-fx/static/js/2.988f6414.chunk.js",
-    "static/js/2.988f6414.chunk.js.map": "/react-fx/static/js/2.988f6414.chunk.js.map",
+    "static/js/2.15ac1bb1.chunk.js": "/react-fx/static/js/2.15ac1bb1.chunk.js",
+    "static/js/2.15ac1bb1.chunk.js.map": "/react-fx/static/js/2.15ac1bb1.chunk.js.map",
     "index.html": "/react-fx/index.html",
-    "precache-manifest.0955df0005792dae7548950839a8626e.js": "/react-fx/precache-manifest.0955df0005792dae7548950839a8626e.js",
+    "precache-manifest.32c0bf1931f08c0e72baae702d781886.js": "/react-fx/precache-manifest.32c0bf1931f08c0e72baae702d781886.js",
     "service-worker.js": "/react-fx/service-worker.js",
     "static/css/main.3b6f8f05.chunk.css.map": "/react-fx/static/css/main.3b6f8f05.chunk.css.map",
-    "static/media/feelings.mp3": "/react-fx/static/media/feelings.75e4829b.mp3",
-    "static/media/logo.svg": "/react-fx/static/media/logo.5d5d9eef.svg"
+    "static/media/feelings.mp3": "/react-fx/static/media/feelings.75e4829b.mp3"
   }
 }
