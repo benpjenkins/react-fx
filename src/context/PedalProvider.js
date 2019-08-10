@@ -69,7 +69,7 @@ const initialState = {
   overdrive: {
     order: 2,
     active: false,
-    distortion: 1.5
+    distortion: 1
   },
   delay: {
     order: 3,

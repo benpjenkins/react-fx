@@ -1,10 +1,10 @@
 import React, { useEffect, useContext } from "react";
 import styled from "styled-components";
 import Button from "./Button";
-// import { initialState, reducer } from "./context/Reducer";
 import Tone from "tone";
 import mp3 from "./Content/feelings.mp3";
 import { PedalContext } from "./context/PedalProvider";
+import { handleStateChange } from "./tone/Audio";
 
 const Play = styled(Button)`
   background-color: green;
@@ -18,18 +18,11 @@ const Mic = styled(Button)`
   background-color: Blue;
 `;
 
-const player = new Tone.Player(mp3).toMaster();
-
 const Player = props => {
   const { state, dispatch } = useContext(PedalContext);
 
   useEffect(() => {
-    console.log("state :", state);
-    if (state.isPlaying) {
-      player.start();
-    } else {
-      player.stop();
-    }
+    handleStateChange(state);
   });
 
   return (

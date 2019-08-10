@@ -39,7 +39,7 @@ const OverdrivePedal = props => {
               })
             }
             min={0.1}
-            max={6}
+            max={3}
             step={0.1}
             value={state.overdrive.distortion}
           />
