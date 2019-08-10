@@ -61,7 +61,7 @@ const Player = props => {
         onClick={() =>
           dispatch({
             type: "SET_SOURCE",
-            source: "mic"
+            source: "mp3"
           })
         }
       >

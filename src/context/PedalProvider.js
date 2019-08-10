@@ -50,7 +50,7 @@ export const reducer = (state, action) => {
     case "SET_PLAYING":
       return { ...state, isPlaying: action.playing };
     case "SET_SOURCE":
-      return { ...state, source: action.source };
+      return { ...state, audioSource: action.source };
     default:
       return state;
   }
