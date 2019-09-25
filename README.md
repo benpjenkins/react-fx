@@ -1,3 +1,6 @@
+## Update
+Since deploying this project I have learned that, while the audio always works on my own machine, it does not always work on other machines.  Hopefully I'll push an update with a fix for that sometime soon but it has proven challening to debug as I'm unsure how to reproduce it.
+
 ## React FX
 React FX implements realtime audio processing to emulate electric guitar effects pedal.  It comes preloaded with an mp3 so that anyone can try it and also allows for a user to connect a guitar with an audio interface and use that signal.
 
