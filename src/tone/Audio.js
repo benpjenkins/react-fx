@@ -1,6 +1,6 @@
 // import { useRef } from "react";
 import Tone from "tone";
-import mp3 from "../Content/feelings.mp3";
+import mp3 from "./feelings.mp3";
 
 const player = new Tone.Player(mp3);
 const mic = new Tone.UserMedia();

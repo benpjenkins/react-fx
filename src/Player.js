@@ -1,8 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import styled from "styled-components";
 import Button from "./Button";
-import Tone from "tone";
-import mp3 from "./Content/feelings.mp3";
 import { PedalContext } from "./context/PedalProvider";
 import { handleStateChange } from "./tone/Audio";
 
