@@ -12,4 +12,4 @@ React FX exclusively uses function components and hooks along with a custom data
 If you would like to try it simply open the page, select either  mp3 or mic (technically this is your default system input, and hit play.  Each effect has a button near the button to toggle it on and off along with at least one parameter that will change the way it alters the sound.
 
 Check it out here!
-https://benpjenkins.github.io/react-fx/
+https://thirsty-ride-5066a2.netlify.com/
